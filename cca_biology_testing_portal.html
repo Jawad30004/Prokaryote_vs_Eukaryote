@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCA MDCAT Biology Testing Portal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Configuration for Customs -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#F0F7FF',
+              100: '#E0EFFF',
+              200: '#BACDFF',
+              500: '#2563EB',
+              600: '#1D4ED8',
+              700: '#1E40AF',
+              deep: '#0F172A',
+              accent: '#06B6D4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- jsPDF & autoTable CDNs for dynamic premium PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+  <!-- Canvas Confetti for Achievements -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    /* Premium font and touch configurations */
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 3px;
+    }
+    /* Anti-Copy Protection */
+    .noselect {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 min-h-screen flex flex-col noselect" id="main-body">
+
+  <!-- Header / Navigation Bar -->
+  <header class="bg-white border-b border-slate-100 sticky top-0 z-40 transition-all shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Left side: Academy Logo & Brand -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-tr from-brand-500 to-brand-accent rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md shadow-brand-200">
+          <span>CCA</span>
+        </div>
+        <div>
+          <h1 class="text-base font-bold text-slate-900 tracking-tight leading-tight">Capital Coaching Academy</h1>
+          <p class="text-[11px] text-brand-600 font-semibold tracking-wider uppercase">MDCAT Biology Portal</p>
+        </div>
+      </div>
+
+      <!-- Center details (Topic/Teacher) -->
+      <div class="hidden md:flex items-center space-x-4 text-xs font-medium text-slate-500">
+        <span class="bg-brand-50 text-brand-700 px-3 py-1 rounded-full border border-brand-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-microscope text-brand-500"></i>
+          Prokaryotes vs Eukaryotes
+        </span>
+        <span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-emerald-500"></i>
+          Sir Jawad
+        </span>
+      </div>
+
+      <!-- Right actions: Security Status & Fullscreen Toggle -->
+      <div class="flex items-center space-x-3">
+        <button id="fullscreen-btn" onclick="toggleFullscreen()" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors" title="Toggle Fullscreen">
+          <i class="fa-solid fa-expand" id="fullscreen-icon"></i>
+        </button>
+        <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-100 gap-1.5 animate-pulse">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+          Secure Exam Mode
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- WELCOME / REGISTRATION SCREEN -->
+    <section id="welcome-screen" class="my-auto max-w-2xl w-full mx-auto transition-all duration-300 transform">
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-xl overflow-hidden">
+        <!-- Visual Accent Banner -->
+        <div class="bg-gradient-to-r from-brand-500 via-brand-600 to-brand-accent p-8 text-white relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+            <i class="fa-solid fa-bacterium"></i>
+          </div>
+          <div class="relative z-10">
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-3 backdrop-blur-sm">Official MDCAT Assessment</span>
+            <h2 class="text-3xl font-extrabold tracking-tight">Biology Testing Platform</h2>
+            <p class="text-brand-100 mt-1.5 font-medium">Topic: Prokaryotes vs Eukaryotes & Cell Structures</p>
+          </div>
+        </div>
+
+        <div class="p-8 space-y-6">
+          <!-- Information Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Supervised By</span>
+                <p class="text-sm font-bold text-slate-800">Sir Jawad</p>
+              </div>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-list-check"></i>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Total Assessment</span>
+                <p class="text-sm font-bold text-slate-800">30 Conceptual MCQs</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Box -->
+          <div class="bg-brand-50/50 p-4 rounded-xl border border-brand-100 text-xs text-brand-800 leading-relaxed space-y-2">
+            <p class="font-semibold flex items-center gap-1.5 text-brand-900">
+              <i class="fa-solid fa-circle-info text-brand-600"></i> Assessment Specifications & Instructions
+            </p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+              <li>This test adheres strictly to MDCAT patterns focusing on analytical and conceptual clarity.</li>
+              <li>Questions are derived directly from Sir Jawad's Lecture 3: <strong>Kingdom Classification, Prokaryotic features, and Plant vs. Animal cell biology</strong>.</li>
+              <li>A safe-exam mode is active: text selection and right-clicks are restricted.</li>
+              <li>Upon submission, comprehensive results and customizable PDF mock papers will be generated.</li>
+            </ul>
+          </div>
+
+          <!-- Student Registration Form -->
+          <form id="student-form" onsubmit="event.preventDefault(); startLoadingSequence();" class="space-y-4">
+            <div>
+              <label for="student-name" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Student Full Name <span class="text-rose-500">*</span></label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                <input type="text" id="student-name" required class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition-shadow shadow-sm" placeholder="e.g. Muhammad Ahmad">
+              </div>
+            </div>
+
+            <div>
+              <label for="father-name" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Father's Name <span class="text-rose-500">*</span></label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-user-friends"></i>
+                </div>
+                <input type="text" id="father-name" required class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition-shadow shadow-sm" placeholder="e.g. Abdul Ghaffar">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-brand-200 hover:shadow-brand-300 transform active:scale-[0.98] flex items-center justify-center space-x-2 text-sm mt-6">
+              <span>Enter Testing Portal</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING SCREEN -->
+    <section id="loading-screen" class="hidden my-auto max-w-md w-full mx-auto text-center p-8 transition-all duration-300">
+      <div class="bg-white border border-slate-100 rounded-2xl p-8 shadow-xl space-y-6">
+        <!-- Animating Core -->
+        <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+          <div class="absolute inset-0 border-4 border-brand-100 rounded-full"></div>
+          <div class="absolute inset-0 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+          <div class="text-brand-500 text-3xl">
+            <i class="fa-solid fa-layer-group animate-pulse"></i>
+          </div>
+        </div>
+        
+        <div class="space-y-2">
+          <h3 class="text-lg font-bold text-slate-950">Generating Customized MDCAT Assessment</h3>
+          <p class="text-xs text-slate-400">Building 30 high-yield questions on Prokaryotes vs Eukaryotes...</p>
+        </div>
+
+        <!-- Custom Mock Progression Bar -->
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="loading-progress-bar" class="bg-brand-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+        <p id="loading-status-text" class="text-[10px] uppercase tracking-wider text-brand-600 font-bold">Initializing session</p>
+      </div>
+    </section>
+
+    <!-- MAIN QUIZ INTERFACE -->
+    <section id="quiz-screen" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6 items-start transition-all duration-300">
+      <!-- Left side: The main MCQ card & options -->
+      <div class="lg:col-span-3 space-y-4">
+        <!-- Quiz Control Card -->
+        <div class="bg-white border border-slate-100 shadow-sm rounded-xl p-4 sm:p-5 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <span class="w-10 h-10 bg-brand-50 text-brand-600 font-bold text-sm rounded-lg flex items-center justify-center" id="question-index-badge">
+              Q1
+            </span>
+            <div>
+              <div class="text-xs text-slate-400 font-medium">Topic Context</div>
+              <div class="text-xs font-bold text-brand-600" id="question-topic-badge">Classification History</div>
+            </div>
+          </div>
+          <!-- Real-Time Stats/Timer -->
+          <div class="flex items-center space-x-4">
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Remaining Time</div>
+              <div class="text-sm font-black text-slate-900 tracking-tight flex items-center gap-1" id="timer-display">
+                <i class="fa-regular fa-clock text-brand-500 animate-pulse"></i> 30:00
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question and Options Container -->
+        <div class="bg-white border border-slate-100 shadow-md rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+          <!-- Background accent blob -->
+          <div class="absolute -top-40 -right-40 w-80 h-80 bg-brand-50 rounded-full blur-3xl opacity-60"></div>
+          
+          <div class="relative z-10 space-y-6">
+            <!-- Progress Bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-slate-400 font-bold uppercase">
+                <span>Progress</span>
+                <span id="quiz-progress-text">1 of 30 Answered (3%)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div id="quiz-progress-bar" class="bg-brand-500 h-full w-[3.33%] transition-all duration-300"></div>
+              </div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="space-y-3">
+              <h4 class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed" id="question-text">
+                Loading question context...
+              </h4>
+            </div>
+
+            <!-- Custom Options Container -->
+            <div class="space-y-3" id="options-container">
+              <!-- Dynamically populated options -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Actions (Navigation Controls) -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div class="flex space-x-3 w-full sm:w-auto">
+            <button onclick="goToPrevQuestion()" id="prev-btn" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>Previous</span>
+            </button>
+            <button onclick="goToNextQuestion()" id="next-btn" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2">
+              <span>Next Question</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="flex space-x-3 w-full sm:w-auto">
+            <button onclick="toggleBookmarkCurrent()" id="bookmark-btn" class="flex-1 sm:flex-initial bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold px-4 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2 border border-amber-200">
+              <i class="fa-regular fa-bookmark"></i>
+              <span id="bookmark-text">Flag Question</span>
+            </button>
+            <button onclick="confirmSubmitQuiz()" class="flex-1 sm:flex-initial bg-brand-500 hover:bg-brand-600 text-white font-bold px-6 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2 shadow-lg shadow-brand-100">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Submit Entire Quiz</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Nav Grid & Progress Overview -->
+      <div class="lg:col-span-1 space-y-4">
+        <!-- Student Identity Summary -->
+        <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm space-y-2">
+          <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Candidate File</div>
+          <div class="space-y-1">
+            <p class="text-sm font-bold text-slate-900 flex items-center gap-1.5 leading-none">
+              <i class="fa-solid fa-user-graduate text-brand-500"></i>
+              <span id="sidebar-student-name">Ahmad</span>
+            </p>
+            <p class="text-xs text-slate-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-user-friends text-slate-300"></i>
+              S/O: <span id="sidebar-father-name">Ghaffar</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Question Map Card -->
+        <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+            <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Question Navigator</span>
+            <span class="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full" id="navigator-ratio">0/30</span>
+          </div>
+
+          <!-- Navigator Buttons Grid -->
+          <div class="grid grid-cols-5 gap-2" id="navigator-grid">
+            <!-- Populated via Javascript -->
+          </div>
+
+          <!-- Color Coding Map Legend -->
+          <div class="pt-2 border-t border-slate-50 grid grid-cols-2 gap-y-2 gap-x-1 text-[10px] text-slate-400 font-bold">
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-3 bg-brand-500 rounded-md border border-brand-200"></span>
+              <span>Answered</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-3 bg-white rounded-md border-2 border-dashed border-slate-200"></span>
+              <span>Unattempted</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-3 bg-amber-500 rounded-md"></span>
+              <span>Flagged / Review</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-3 bg-white rounded-md border-2 border-brand-500"></span>
+              <span>Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOM SUBMISSION MODAL -->
+    <div id="submit-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full border border-slate-100 shadow-2xl p-6 sm:p-8 text-center space-y-6">
+        <div class="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center mx-auto text-brand-500 text-2xl border border-brand-100">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xl font-bold text-slate-900">Finish Assessment?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            You are about to submit your MDCAT Biology assessment. You cannot modify your responses after this final submission.
+          </p>
+        </div>
+        <!-- Submission Status Metrics -->
+        <div class="grid grid-cols-3 gap-3 bg-slate-50 p-4 rounded-xl text-xs font-bold text-slate-500">
+          <div>
+            <div class="text-brand-600 text-lg font-extrabold" id="modal-answered-count">0</div>
+            <div>Answered</div>
+          </div>
+          <div>
+            <div class="text-amber-500 text-lg font-extrabold" id="modal-flagged-count">0</div>
+            <div>Flagged</div>
+          </div>
+          <div>
+            <div class="text-slate-400 text-lg font-extrabold" id="modal-unanswered-count">30</div>
+            <div>Remaining</div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="closeSubmitModal()" class="flex-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-3 px-4 rounded-xl transition-all text-xs">
+            Continue Assessment
+          </button>
+          <button onclick="submitQuizFinal()" class="flex-1 bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 px-4 rounded-xl transition-all text-xs shadow-lg shadow-brand-200">
+            Submit Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAVE WARNING DIALOG -->
+    <div id="leave-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full border border-slate-100 shadow-2xl p-6 text-center space-y-4">
+        <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl border border-rose-100">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Warning: Active Assessment</h3>
+        <p class="text-xs text-slate-400">
+          Leaving this tab or reloading will compromise your secure MDCAT examination state. Please continue your assessment to prevent automatic submission.
+        </p>
+        <button onclick="closeLeaveModal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-2.5 px-4 rounded-xl transition-all text-xs">
+          Return to Test
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTS & PERFORMANCE ANALYTICS DASHBOARD -->
+    <section id="results-screen" class="hidden space-y-6 transition-all duration-300">
+      <!-- Welcome Results Banner -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+        <div class="absolute -bottom-10 -left-10 text-9xl text-brand-50/70">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="relative z-10 space-y-3 text-center md:text-left">
+          <span class="bg-brand-50 text-brand-700 border border-brand-100 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full">Assessment Concluded</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">MDCAT Assessment Dashboard</h2>
+          <p class="text-xs text-slate-400">Capital Coaching Academy • Master Evaluation System</p>
+          <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 pt-2 font-medium">
+            <span><i class="fa-solid fa-user text-slate-300 mr-1.5"></i>Name: <strong class="text-slate-700" id="result-student-name"></strong></span>
+            <span><i class="fa-solid fa-user-friends text-slate-300 mr-1.5"></i>Father: <strong class="text-slate-700" id="result-father-name"></strong></span>
+            <span><i class="fa-solid fa-clock text-slate-300 mr-1.5"></i>Date: <strong class="text-slate-700" id="result-date"></strong></span>
+          </div>
+        </div>
+        <!-- Circular Score Indicator -->
+        <div class="relative w-32 h-32 flex items-center justify-center">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="64" cy="64" r="54" stroke="#F1F5F9" stroke-width="8" fill="transparent"/>
+            <circle cx="64" cy="64" r="54" stroke="#2563EB" stroke-width="8" fill="transparent" stroke-dasharray="339.29" stroke-dashoffset="339.29" id="score-circle" class="transition-all duration-1000 ease-out"/>
+          </svg>
+          <div class="absolute text-center">
+            <span class="text-2xl font-black text-slate-900 tracking-tight" id="score-percentage">0%</span>
+            <p class="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold">Final Score</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-xs flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Obtained Marks</span>
+            <p class="text-lg font-bold text-slate-900" id="stats-marks">0 / 30</p>
+          </div>
+        </div>
+        <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-xs flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Correct</span>
+            <p class="text-lg font-bold text-slate-900 text-emerald-600" id="stats-correct">0</p>
+          </div>
+        </div>
+        <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-xs flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Incorrect</span>
+            <p class="text-lg font-bold text-slate-900 text-rose-500" id="stats-incorrect">0</p>
+          </div>
+        </div>
+        <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-xs flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-lg bg-slate-50 text-slate-500 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-circle-minus"></i>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Unattempted</span>
+            <p class="text-lg font-bold text-slate-900" id="stats-unattempted">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Dashboard (Strength/Weakness Insights) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Performance Feedback -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-4">
+          <h3 class="text-sm font-extrabold uppercase text-slate-400 tracking-wider flex items-center gap-1.5 border-b border-slate-50 pb-2">
+            <i class="fa-solid fa-chart-line text-brand-500"></i> Performance Insights
+          </h3>
+          <div class="space-y-4">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <span class="text-[10px] font-bold uppercase text-brand-600">Teacher's Evaluation Remarks</span>
+              <p class="text-sm font-semibold text-slate-800 mt-1" id="teacher-remarks">Loading remarks...</p>
+            </div>
+            <!-- Strengths and Weaknesses lists -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <span class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-1"><i class="fa-solid fa-circle-up"></i> Conceptual Strengths</span>
+                <ul class="text-xs text-slate-600 space-y-1.5 pl-4 list-disc" id="strength-areas">
+                  <!-- JS Injection -->
+                </ul>
+              </div>
+              <div class="space-y-2">
+                <span class="text-[10px] font-bold text-rose-500 uppercase flex items-center gap-1"><i class="fa-solid fa-circle-down"></i> Areas For Revision</span>
+                <ul class="text-xs text-slate-600 space-y-1.5 pl-4 list-disc" id="weak-areas">
+                  <!-- JS Injection -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PDF Export Options & Portal Control Panel -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-4 flex flex-col justify-between">
+          <div>
+            <h3 class="text-sm font-extrabold uppercase text-slate-400 tracking-wider flex items-center gap-1.5 border-b border-slate-50 pb-2">
+              <i class="fa-solid fa-file-pdf text-brand-500"></i> Academy Export Center
+            </h3>
+            <p class="text-xs text-slate-500 leading-relaxed mt-2">
+              Capital Coaching Academy provides dual authentic outputs. You can export a personal performance ledger or compile a standardized workbook printable practice booklet matching class specifications.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <button onclick="downloadPerformanceReport()" class="bg-brand-50 flex items-center justify-center gap-2 border border-brand-200 text-brand-700 hover:bg-brand-100 py-3.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm">
+              <i class="fa-solid fa-user-check text-base"></i>
+              <span>Download Performance PDF</span>
+            </button>
+            <button onclick="downloadPracticeBooklet()" class="bg-emerald-50 flex items-center justify-center gap-2 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 py-3.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm">
+              <i class="fa-solid fa-book-open text-base"></i>
+              <span>Download Practice PDF</span>
+            </button>
+          </div>
+          <button onclick="location.reload()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 mt-2 shadow-md">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Restart New Exam Session</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- IN-DEPTH CONCEPT REVIEW SYSTEM -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="text-base font-extrabold text-slate-900">MDCAT Assessment Analysis</h3>
+            <p class="text-xs text-slate-400">Step-by-step post-exam discussion with textbook notes integration.</p>
+          </div>
+          <!-- Question Filters -->
+          <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-[10px] font-bold text-slate-500">
+            <button onclick="filterReviews('all')" class="px-3 py-1.5 rounded-lg text-slate-700 bg-white shadow-xs" id="filter-all">All (30)</button>
+            <button onclick="filterReviews('correct')" class="px-3 py-1.5 rounded-lg" id="filter-correct">Correct</button>
+            <button onclick="filterReviews('incorrect')" class="px-3 py-1.5 rounded-lg" id="filter-incorrect">Incorrect</button>
+            <button onclick="filterReviews('unattempted')" class="px-3 py-1.5 rounded-lg" id="filter-unattempted">Skipped</button>
+          </div>
+        </div>
+
+        <!-- Review Question Cards Container -->
+        <div class="space-y-6" id="review-cards-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Info -->
+  <footer class="bg-white border-t border-slate-100 py-6 mt-12 text-center text-xs text-slate-400 font-medium">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <p>© 2026 Capital Coaching Academy (CCA). All Rights Reserved.</p>
+      <div class="flex items-center space-x-4">
+        <span>Instructor: Sir Jawad</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+        <span>Secure Core v2.5</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // COMPLETE MASTER QUESTION DATA BASE
+    // Topic: Prokaryotes vs Eukaryotes
+    const MCQS = [
+      {
+        id: 1,
+        topic: "Cellular Etymology",
+        difficulty: "Easy",
+        question: "The terms 'Prokaryote' and 'Eukaryote' are derived from Ancient Greek. What does the root word 'karyon' refer to?",
+        options: [
+          "Cell wall",
+          "Nut or kernel (referring to the nucleus)",
+          "Membrane",
+          "Cytoplasm"
+        ],
+        correct: 1, // B
+        explanation: "In Ancient Greek, 'pro' means before, 'eu' means true, and 'karyon' means nut or kernel, which biologically refers to the nucleus.",
+        mdcatPoint: "Prokaryote literally translates to 'before nucleus', highlighting their primitive structural organization."
+      },
+      {
+        id: 2,
+        topic: "Evolutionary Timeline",
+        difficulty: "Moderate",
+        question: "Based on the evolutionary timeline of cellular life, when did Eukaryotic cells first appear on Earth compared to Prokaryotic cells?",
+        options: [
+          "Eukaryotes appeared 3.5 billion years ago, before Prokaryotes.",
+          "Eukaryotes appeared 2.1 to 1.9 billion years ago, long after Prokaryotes.",
+          "Both cell types appeared simultaneously 3.5 billion years ago.",
+          "Eukaryotes appeared 500 million years ago."
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotes are primitive cells that appeared ~3.5 billion years ago. Eukaryotes evolved much later, approximately 2.1 to 1.9 billion years ago.",
+        mdcatPoint: "The chronological delay between prokaryotes and eukaryotes represents the time required for endosymbiosis to occur."
+      },
+      {
+        id: 3,
+        topic: "Cell Size & Dimensions",
+        difficulty: "Easy",
+        question: "What is the typical size range of a general Prokaryotic cell?",
+        options: [
+          "0.1 to 10 µm",
+          "10 to 100 µm",
+          "100 to 1000 µm",
+          "1 to 5 mm"
+        ],
+        correct: 0, // A
+        explanation: "Prokaryotic cells are generally small, ranging from 0.1 to 10 µm, while Eukaryotic cells are significantly larger, typically 10 to 100 µm.",
+        mdcatPoint: "The smaller size of prokaryotes grants them a massive surface-area-to-volume ratio, allowing rapid nutrient absorption and replication."
+      },
+      {
+        id: 4,
+        topic: "Genetic Material Organization",
+        difficulty: "Moderate",
+        question: "Which of the following statements accurately describes the primary genetic material of a Prokaryotic cell?",
+        options: [
+          "Multiple linear chromosomes enclosed by a nuclear envelope",
+          "A single, circular double-stranded DNA molecule located in the nucleoid",
+          "Multiple circular RNA fragments wrapped around histones",
+          "A single linear chromosome floating freely in the cytoplasm"
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotes lack a true nucleus. Their genetic material consists of a single, circular double-stranded DNA chromosome localized in the nucleoid region.",
+        mdcatPoint: "Circular DNA protects prokaryotic genomes from exonuclease degradation without needing telomeres."
+      },
+      {
+        id: 5,
+        topic: "Chromatin & DNA Packaging",
+        difficulty: "Challenging",
+        question: "Unlike Eukaryotes, Prokaryotes do not possess true histone proteins to wrap their DNA into chromatin. How is prokaryotic DNA compacted?",
+        options: [
+          "By forming rigid crystalline matrices inside the nucleolus",
+          "Through association with unique nucleoid-associated / histone-like proteins",
+          "It remains completely uncoiled and naked in the cytoplasm",
+          "By binding directly to the inner surface of the peptidoglycan cell wall"
+        ],
+        correct: 1, // B
+        explanation: "While true histones are absent, prokaryotic DNA is compacted and structurally maintained by histone-like or nucleoid-associated proteins.",
+        mdcatPoint: "DNA compaction is physically mandatory for all cellular life; the chemical mechanism just differs between domains."
+      },
+      {
+        id: 6,
+        topic: "Extrachromosomal DNA",
+        difficulty: "Moderate",
+        question: "In prokaryotic cells, extrachromosomal DNA is often present in the form of plasmids. Do eukaryotic cells ever contain extrachromosomal DNA?",
+        options: [
+          "No, all eukaryotic DNA is strictly confined to the nuclear chromosomes.",
+          "Yes, it is present in organelles like mitochondria and chloroplasts, and as plasmids in some yeasts.",
+          "Yes, but only in the form of viral proviruses integrated into the membrane.",
+          "No, eukaryotes immediately degrade any DNA outside the nucleus."
+        ],
+        correct: 1, // B
+        explanation: "Eukaryotes do possess extrachromosomal DNA, prominently inside mitochondria and chloroplasts (which have 70S ribosomes and circular DNA), and some fungi like yeast also carry plasmids.",
+        mdcatPoint: "Mitochondrial and chloroplast DNA provides fundamental evidence for the Endosymbiotic Theory."
+      },
+      {
+        id: 7,
+        topic: "Ribosome Structure",
+        difficulty: "Moderate",
+        question: "Which specific ribosomal subunits combine to form the 70S ribosome found free in the prokaryotic cytoplasm?",
+        options: [
+          "60S large subunit + 40S small subunit",
+          "50S large subunit + 30S small subunit",
+          "40S large subunit + 30S small subunit",
+          "50S large subunit + 20S small subunit"
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotic 70S ribosomes are composed of a 50S large subunit and a 30S small subunit.",
+        mdcatPoint: "Ribosomal subunits are measured by sedimentation rate (Svedberg units), which is why 50S + 30S does not equal 80S mathematically."
+      },
+      {
+        id: 8,
+        topic: "Organelles & Cytoplasm",
+        difficulty: "Easy",
+        question: "Which of the following cellular features is completely ABSENT in all prokaryotic cells?",
+        options: [
+          "Plasma Membrane",
+          "Cytoplasmic Streaming",
+          "Ribosomes",
+          "Genetic Material"
+        ],
+        correct: 1, // B
+        explanation: "Cytoplasmic streaming (cyclosis) is absent in prokaryotes. They also completely lack membrane-bound organelles and a true cytoskeleton.",
+        mdcatPoint: "Cytoplasmic streaming relies on complex cytoskeletal elements (like microfilaments) which prokaryotes do not possess."
+      },
+      {
+        id: 9,
+        topic: "Plasma Membrane Composition",
+        difficulty: "Challenging",
+        question: "Sterols (like cholesterol) provide fluidity and stability to cell membranes. Which prokaryote is the notable exception that actually contains sterols in its cell membrane?",
+        options: [
+          "Cyanobacteria",
+          "Escherichia coli",
+          "Mycoplasma",
+          "Streptococcus pneumoniae"
+        ],
+        correct: 2, // C
+        explanation: "Generally, sterols are absent in prokaryotic plasma membranes and present in eukaryotic membranes. The exception is Mycoplasma, which incorporates sterols for stability.",
+        mdcatPoint: "Mycoplasma lacks a rigid peptidoglycan cell wall entirely; thus, it absolutely requires sterols to prevent membrane rupture."
+      },
+      {
+        id: 10,
+        topic: "Bioenergetics & Respiration",
+        difficulty: "Moderate",
+        question: "Since prokaryotes lack mitochondria, where are the enzymes for the electron transport chain (ETC) located?",
+        options: [
+          "Suspended freely in the liquid cytosol",
+          "On the inner surface of the plasma membrane, sometimes forming infoldings called mesosomes",
+          "Covalently bonded to the 70S ribosomes",
+          "Within the periplasmic space of the cell wall"
+        ],
+        correct: 1, // B
+        explanation: "In prokaryotes, the plasma membrane acts as the site of the electron transport chain, often utilizing infoldings called mesosomes to increase surface area.",
+        mdcatPoint: "Mesosomes act as the functional equivalent of the mitochondrial cristae in bacteria."
+      },
+      {
+        id: 11,
+        topic: "Cell Division Mechanics",
+        difficulty: "Moderate",
+        question: "How does typical cell division in prokaryotes fundamentally differ from eukaryotic cell division?",
+        options: [
+          "Prokaryotes use a spindle apparatus formed from centrioles, whereas eukaryotes use binary fission.",
+          "Prokaryotic division (binary fission) occurs without the formation of spindle fibers.",
+          "Prokaryotes undergo meiosis exclusively to divide.",
+          "Prokaryotes only divide by multiple budding."
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotes reproduce asexually via binary fission, a simple process that completely lacks the complex spindle fiber apparatus seen in eukaryotic mitosis.",
+        mdcatPoint: "The absence of a nucleus and multiple chromosomes in prokaryotes negates the mechanical need for spindle fibers."
+      },
+      {
+        id: 12,
+        topic: "Motility Appendages",
+        difficulty: "Challenging",
+        question: "Structurally, how does a prokaryotic flagellum compare to a eukaryotic flagellum?",
+        options: [
+          "Prokaryotic flagella have a 9+2 tubulin arrangement; eukaryotic flagella do not.",
+          "Both are enclosed by extensions of the plasma membrane.",
+          "Prokaryotic flagella are made of flagellin protein, lack a 9+2 arrangement, and are not enclosed by the cell membrane.",
+          "Prokaryotic flagella only allow amoeboid movement."
+        ],
+        correct: 2, // C
+        explanation: "Prokaryotic flagella are simple filaments made of 'flagellin' proteins that sit entirely outside the cell membrane. Eukaryotic flagella are complex 'tubulin' structures (9+2 arrangement) enclosed by the cell membrane.",
+        mdcatPoint: "Flagellar structures represent convergent evolution: they serve the same purpose but are structurally and chemically unrelated."
+      },
+      {
+        id: 13,
+        topic: "Gene Architecture",
+        difficulty: "Moderate",
+        question: "Which feature is generally characteristic of Eukaryotic genes but typically absent in Prokaryotic genes?",
+        options: [
+          "Promoter regions",
+          "Introns (non-coding sequences)",
+          "Start and Stop codons",
+          "Operons"
+        ],
+        correct: 1, // B
+        explanation: "Eukaryotic genes contain continuous coding sequences (exons) interrupted by non-coding sequences called Introns. Prokaryotic genes are generally continuous and lack introns.",
+        mdcatPoint: "The absence of introns in prokaryotes allows translation to begin immediately before transcription has even finished."
+      },
+      {
+        id: 14,
+        topic: "Cell Wall Biochemistry",
+        difficulty: "Easy",
+        question: "The structural foundation of a prokaryotic cell wall (excluding Archaea) is primarily composed of:",
+        options: [
+          "Cellulose",
+          "Chitin",
+          "Peptidoglycan (Murein)",
+          "Phospholipid bilayer"
+        ],
+        correct: 2, // C
+        explanation: "Bacterial prokaryotes have cell walls made of peptidoglycan (murein). Eukaryotes have cell walls made of cellulose (plants) or chitin (fungi).",
+        mdcatPoint: "Peptidoglycan is a unique, exclusive target for antibiotics like penicillin, harmless to eukaryotic host cells."
+      },
+      {
+        id: 15,
+        topic: "Replication Site & Timing",
+        difficulty: "Moderate",
+        question: "In Prokaryotes, DNA replication occurs continuously throughout the cell cycle. In Eukaryotes, DNA replication is strictly restricted to which specific phase?",
+        options: [
+          "G1 Phase",
+          "S Phase",
+          "G2 Phase",
+          "M Phase"
+        ],
+        correct: 1, // B
+        explanation: "Eukaryotic replication is highly regulated and strictly restricted to the Synthesis (S) phase of the cell cycle, inside the nucleus. Prokaryotic replication is continuous in the cytoplasm.",
+        mdcatPoint: "Continuous replication in prokaryotes allows them to double at extraordinary rates (e.g., 20 mins for E. coli)."
+      },
+      {
+        id: 16,
+        topic: "Replication Origins",
+        difficulty: "Easy",
+        question: "Regarding the origin of replication, a typical prokaryotic circular chromosome is described as:",
+        options: [
+          "Polycentric (Multiple origins)",
+          "Monocentric (Single origin)",
+          "Acentric (No origins)",
+          "Randomly initiated anywhere on the strand"
+        ],
+        correct: 1, // B
+        explanation: "A prokaryotic circular chromosome has a single origin of replication (monocentric). Eukaryotic linear chromosomes have multiple origins (polycentric).",
+        mdcatPoint: "Polycentric origins are required in eukaryotes to replicate their massive genomes within a feasible timeframe."
+      },
+      {
+        id: 17,
+        topic: "Nuclear Membrane",
+        difficulty: "Easy",
+        question: "Which of the following is the most defining characteristic of a Eukaryotic cell?",
+        options: [
+          "It lacks a cell membrane.",
+          "Its genetic material is enclosed by a true nuclear membrane.",
+          "It contains a single circular chromosome.",
+          "It is completely devoid of ribosomes."
+        ],
+        correct: 1, // B
+        explanation: "The term 'Eukaryote' literally means 'true nucleus'. Their genetic material is enclosed by a nuclear membrane, unlike prokaryotes.",
+        mdcatPoint: "The presence of a nuclear envelope physically separates transcription (nucleus) from translation (cytoplasm) in eukaryotes."
+      },
+      {
+        id: 18,
+        topic: "Nucleolus Presence",
+        difficulty: "Easy",
+        question: "The nucleolus is a dense region involved in synthesizing ribosomal RNA. In which cell type is the nucleolus found?",
+        options: [
+          "Only in Prokaryotic cells",
+          "Only in Eukaryotic cells",
+          "In both Prokaryotic and Eukaryotic cells",
+          "Only in viral particles"
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotes completely lack a nucleolus because they lack a true nucleus. The nucleolus is an exclusive feature of eukaryotic cells.",
+        mdcatPoint: "Without a nucleolus, prokaryotic rRNA is synthesized directly in the cytoplasm alongside other RNAs."
+      },
+      {
+        id: 19,
+        topic: "Transcription Promoters",
+        difficulty: "Moderate",
+        question: "In prokaryotic transcription, RNA polymerase recognizes which highly conserved promoter regions?",
+        options: [
+          "-25 (TATA box) and -75 (CAAT box) regions",
+          "-10 (Pribnow box) and -35 regions",
+          "Enhancers located thousands of base pairs upstream",
+          "Kozak consensus sequences"
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotic promoters are located at the -10 and -35 regions upstream of the transcription start site. Eukaryotic promoters generally utilize -25 and -75 regions.",
+        mdcatPoint: "The -10 region in prokaryotes is called the Pribnow box; it is functionally analogous to the eukaryotic TATA box."
+      },
+      {
+        id: 20,
+        topic: "RNA Polymerases",
+        difficulty: "Moderate",
+        question: "How many distinct types of core RNA polymerase enzymes are required to handle all forms of transcription (mRNA, tRNA, rRNA) in a Prokaryotic cell?",
+        options: [
+          "One single core RNA polymerase",
+          "Two types",
+          "Three distinct types",
+          "Four specific polymerases"
+        ],
+        correct: 0, // A
+        explanation: "Prokaryotes use a single core RNA polymerase to synthesize all types of RNA. Eukaryotes have divided this labor among three distinct polymerases (Pol I, II, and III).",
+        mdcatPoint: "Eukaryotic breakdown: Pol I (rRNA), Pol II (mRNA), Pol III (tRNA)."
+      },
+      {
+        id: 21,
+        topic: "mRNA Characteristics",
+        difficulty: "Challenging",
+        question: "Prokaryotic mRNA is frequently described as 'Polycistronic'. What does this term indicate?",
+        options: [
+          "The mRNA undergoes extensive polyadenylation at the 3' end.",
+          "A single mRNA transcript carries the coding sequences for multiple different proteins.",
+          "The mRNA is constructed from multiple overlapping introns.",
+          "It must be translated by multiple types of ribosomes simultaneously."
+        ],
+        correct: 1, // B
+        explanation: "Polycistronic mRNA codes for multiple distinct proteins, a common feature of bacterial operons. Eukaryotic mRNA is monocistronic (one mRNA = one protein).",
+        mdcatPoint: "Operons allow bacteria to express entirely related metabolic pathways from a single polycistronic transcript."
+      },
+      {
+        id: 22,
+        topic: "Post-Transcriptional Modification",
+        difficulty: "Moderate",
+        question: "Which of the following processes occurs to mRNA in Eukaryotes but NOT in Prokaryotes?",
+        options: [
+          "Immediate translation by ribosomes",
+          "Binding to the 30S ribosomal subunit",
+          "5' Capping, 3' Polyadenylation, and Splicing",
+          "Base pairing with tRNA anticodons"
+        ],
+        correct: 2, // C
+        explanation: "Prokaryotic mRNA undergoes zero processing and is translated immediately. Eukaryotic mRNA must be heavily modified (capping, tailing, splicing) before exiting the nucleus.",
+        mdcatPoint: "The lack of mRNA processing is the defining reason why transcription and translation can be coupled in bacteria."
+      },
+      {
+        id: 23,
+        topic: "Gene Expression Coupling",
+        difficulty: "Easy",
+        question: "In prokaryotes, transcription and translation are described as 'coupled'. What does this mean structurally and functionally?",
+        options: [
+          "Both processes occur in the nucleus simultaneously.",
+          "Translation begins on the mRNA transcript while it is still actively being transcribed from the DNA.",
+          "The RNA polymerase is physically fused to the ribosome.",
+          "Translation strictly halts until transcription is completed and spliced."
+        ],
+        correct: 1, // B
+        explanation: "Coupling means the processes happen simultaneously in the cytoplasm; ribosomes begin translating the mRNA even as the RNA polymerase continues transcribing it from the DNA.",
+        mdcatPoint: "Coupling provides bacteria with explosive reaction times to changing environmental stimuli."
+      },
+      {
+        id: 24,
+        topic: "Translation Initiation",
+        difficulty: "Challenging",
+        question: "During translation initiation in a Prokaryote, what is the specific identity of the first amino acid delivered by the initiator tRNA?",
+        options: [
+          "Standard Methionine (Met)",
+          "Formyl-methionine (fMet)",
+          "Arginine (Arg)",
+          "Leucine (Leu)"
+        ],
+        correct: 1, // B
+        explanation: "The first amino acid in prokaryotic translation is always Formyl-methionine (fMet). In eukaryotes, it is standard Methionine (Met).",
+        mdcatPoint: "Because fMet is exclusive to bacteria, the human immune system recognizes it as a powerful sign of foreign infection."
+      },
+      {
+        id: 25,
+        topic: "Organisms classification",
+        difficulty: "Easy",
+        question: "Which of the following organisms is classified as a Prokaryote?",
+        options: [
+          "Fungi",
+          "Cyanobacteria",
+          "Algae",
+          "Protozoa"
+        ],
+        correct: 1, // B
+        explanation: "Cyanobacteria (blue-green algae) belong to the kingdom Monera and are prokaryotic. Fungi, Algae, and Protozoa are all eukaryotes.",
+        mdcatPoint: "Despite their plant-like photosynthesis, cyanobacteria are true bacteria lacking membrane-bound organelles."
+      },
+      {
+        id: 26,
+        topic: "Sexual Reproduction Mechanisms",
+        difficulty: "Moderate",
+        question: "True sexual reproduction (meiosis and fertilization) is common in eukaryotes. How do Prokaryotes handle gene transfer since they only reproduce asexually?",
+        options: [
+          "Through spindle fiber crossover",
+          "Via conjugation, transformation, and transduction",
+          "Through independent assortment inside the nucleus",
+          "Prokaryotes cannot exchange genes at all"
+        ],
+        correct: 1, // B
+        explanation: "Prokaryotes reproduce only asexually but achieve genetic diversity through horizontal gene transfer mechanisms: conjugation, transformation, and transduction.",
+        mdcatPoint: "Horizontal gene transfer is the primary mechanism behind the rapid spread of antibiotic resistance in bacterial populations."
+      },
+      {
+        id: 27,
+        topic: "Subcellular Compartmentalization",
+        difficulty: "Easy",
+        question: "Which of the following Eukaryotic structures is completely absent in Prokaryotes?",
+        options: [
+          "Ribosomes",
+          "Plasma Membrane",
+          "Nucleolus",
+          "Cytoplasm"
+        ],
+        correct: 2, // C
+        explanation: "Prokaryotes completely lack a nucleolus (and a true nucleus). Ribosomes, plasma membrane, and cytoplasm are universal to all cells.",
+        mdcatPoint: "The nucleolus is a dense eukaryotic sub-region inside the nucleus devoted entirely to synthesizing ribosomal RNA."
+      },
+      {
+        id: 28,
+        topic: "Energy Yield Metrics",
+        difficulty: "Challenging",
+        question: "Due to the absence of mitochondrial transport costs, what is the typical ATP yield per glucose molecule in a metabolizing Prokaryote?",
+        options: [
+          "Exactly 2 ATP",
+          "About 36 ATP",
+          "About 38 ATP",
+          "Over 100 ATP"
+        ],
+        correct: 2, // C
+        explanation: "Prokaryotes typically yield 38 ATP per glucose. Eukaryotes often yield 36 (or 38 depending on the shuttle) because energy is spent moving NADH into the mitochondria.",
+        mdcatPoint: "Bacteria achieve maximal 38 ATP efficiency because their electron transport chain is situated directly on the external plasma membrane."
+      },
+      {
+        id: 29,
+        topic: "Kingdom Classification",
+        difficulty: "Easy",
+        question: "Based on the Five Kingdom System, which Kingdom is exclusively composed of Prokaryotic organisms?",
+        options: [
+          "Kingdom Protista",
+          "Kingdom Monera",
+          "Kingdom Fungi",
+          "Kingdom Plantae"
+        ],
+        correct: 1, // B
+        explanation: "Kingdom Monera (which encompasses Bacteria and Archaea) is exclusively prokaryotic. All other kingdoms (Protista, Fungi, Plantae, Animalia) fall under Eukarya.",
+        mdcatPoint: "Monera represents the most ancient, abundant, and metabolically diverse kingdom of life."
+      },
+      {
+        id: 30,
+        topic: "Extracellular Structures",
+        difficulty: "Moderate",
+        question: "When observing a eukaryotic animal cell and a standard prokaryotic bacterial cell, which statement accurately compares their boundaries?",
+        options: [
+          "Both contain a thick protective cell wall.",
+          "The animal cell has a cell wall but the bacteria lacks one.",
+          "The bacteria has a peptidoglycan cell wall; the animal cell lacks a cell wall entirely.",
+          "Both lack a plasma membrane."
+        ],
+        correct: 2, // C
+        explanation: "Bacteria possess a rigid peptidoglycan cell wall outside their plasma membrane. Animal cells lack a cell wall completely, possessing only a flexible plasma membrane.",
+        mdcatPoint: "The lack of a cell wall allows animal cells to perform phagocytosis and pinocytosis (engulfing large particles)."
+      }
+    ];
+
+    // STATE VARIABLES
+    let studentData = { name: '', father: '' };
+    let userAnswers = Array(30).fill(null);
+    let flaggedQuestions = Array(30).fill(false);
+    let currentQuestionIndex = 0;
+    let timerInterval = null;
+    let timeRemaining = 30 * 60; // 30 minutes in seconds
+    let activeFilter = 'all';
+
+    // SECURITY COMPLIANCE: Disable Inspect Elements / Copys
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 'i' || e.key === 'j' || e.key === 's')) {
+        e.preventDefault();
+      }
+    });
+
+    // LEAVE WARNING STATE
+    window.addEventListener('beforeunload', (e) => {
+      if (studentData.name && !timerInterval === null) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    function showLeaveModal() {
+      document.getElementById('leave-modal').classList.remove('hidden');
+    }
+    function closeLeaveModal() {
+      document.getElementById('leave-modal').classList.add('hidden');
+    }
+
+    // TOGGLE FULLSCREEN
+    function toggleFullscreen() {
+      const elem = document.documentElement;
+      const icon = document.getElementById('fullscreen-icon');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().then(() => {
+          icon.className = 'fa-solid fa-compress';
+        }).catch(err => console.log(err));
+      } else {
+        document.exitFullscreen().then(() => {
+          icon.className = 'fa-solid fa-expand';
+        });
+      }
+    }
+
+    // LOADING SEQUENCE ANIMATION
+    function startLoadingSequence() {
+      const name = document.getElementById('student-name').value.trim();
+      const father = document.getElementById('father-name').value.trim();
+
+      if (!name || !father) return;
+
+      studentData.name = name;
+      studentData.father = father;
+
+      // Swap views: Welcome to Loading
+      document.getElementById('welcome-screen').classList.add('hidden');
+      document.getElementById('loading-screen').classList.remove('hidden');
+
+      // Populate Name/Father metadata
+      document.getElementById('sidebar-student-name').innerText = name;
+      document.getElementById('sidebar-father-name').innerText = father;
+
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        progress += 5;
+        document.getElementById('loading-progress-bar').style.width = `${progress}%`;
+
+        if (progress === 25) {
+          document.getElementById('loading-status-text').innerText = "Connecting security system...";
+        } else if (progress === 50) {
+          document.getElementById('loading-status-text').innerText = "Parsing structural cell models...";
+        } else if (progress === 75) {
+          document.getElementById('loading-status-text').innerText = "Finalizing MDCAT scoring module...";
+        } else if (progress >= 100) {
+          clearInterval(progressInterval);
+          startQuizSession();
+        }
+      }, 100);
+    }
+
+    // INITIATE ACTIVE EXAMINATIONS
+    function startQuizSession() {
+      document.getElementById('loading-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+
+      // Reset state variables
+      currentQuestionIndex = 0;
+      userAnswers = Array(30).fill(null);
+      flaggedQuestions = Array(30).fill(false);
+
+      // Render structures
+      renderNavigator();
+      loadQuestion(0);
+      startTimer();
+    }
+
+    // RUN TIME MODULE
+    function startTimer() {
+      timeRemaining = 30 * 60; // reset
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitQuizFinal();
+        } else {
+          const minutes = Math.floor(timeRemaining / 60);
+          const seconds = timeRemaining % 60;
+          document.getElementById('timer-display').innerHTML = `
+            <i class="fa-regular fa-clock text-brand-500 animate-pulse"></i> 
+            ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}
+          `;
+        }
+      }, 1000);
+    }
+
+    // RENDER QUESTIONS MAP
+    function renderNavigator() {
+      const grid = document.getElementById('navigator-grid');
+      grid.innerHTML = '';
+      
+      let answeredCount = 0;
+
+      for (let i = 0; i < 30; i++) {
+        const btn = document.createElement('button');
+        btn.id = `nav-btn-${i}`;
+        btn.innerText = i + 1;
+        
+        // Calculate style dynamic status
+        let styles = "w-full aspect-square rounded-lg font-bold text-xs border transition-all flex items-center justify-center ";
+        
+        if (i === currentQuestionIndex) {
+          styles += "border-2 border-brand-500 bg-brand-50 text-brand-700 ring-2 ring-brand-100 ";
+        } else if (flaggedQuestions[i]) {
+          styles += "bg-amber-500 text-white border-amber-500 ";
+        } else if (userAnswers[i] !== null) {
+          styles += "bg-brand-500 text-white border-brand-500 ";
+          answeredCount++;
+        } else {
+          styles += "bg-white text-slate-500 border-slate-200 hover:bg-slate-50 ";
+        }
+
+        btn.className = styles;
+        btn.onclick = () => loadQuestion(i);
+        grid.appendChild(btn);
+      }
+
+      // Ratios
+      document.getElementById('navigator-ratio').innerText = `${answeredCount}/30`;
+      document.getElementById('quiz-progress-text').innerText = `${answeredCount} of 30 Answered (${Math.round((answeredCount/30)*100)}%)`;
+      document.getElementById('quiz-progress-bar').style.width = `${(answeredCount/30)*100}%`;
+    }
+
+    // LOAD SINGLE MCQ DETAILS
+    function loadQuestion(index) {
+      currentQuestionIndex = index;
+      const mcq = MCQS[index];
+
+      // Update question badges
+      document.getElementById('question-index-badge').innerText = `Q${index + 1}`;
+      document.getElementById('question-topic-badge').innerText = mcq.topic;
+      document.getElementById('question-text').innerHTML = mcq.question;
+
+      // Render custom cards options
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      mcq.options.forEach((opt, idx) => {
+        const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
+        const isSelected = userAnswers[index] === idx;
+
+        const card = document.createElement('div');
+        card.onclick = () => selectOption(idx);
+        card.className = `border rounded-xl p-4 flex items-center space-x-3.5 cursor-pointer transition-all ${
+          isSelected 
+            ? 'border-brand-500 bg-brand-50/50 shadow-sm ring-2 ring-brand-100' 
+            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+        }`;
+
+        card.innerHTML = `
+          <span class="w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition-colors ${
+            isSelected 
+              ? 'bg-brand-500 text-white' 
+              : 'bg-slate-100 text-slate-500'
+          }">${optionLetter}</span>
+          <span class="text-xs sm:text-sm font-medium ${isSelected ? 'text-brand-950' : 'text-slate-700'}">${opt}</span>
+        `;
+        container.appendChild(card);
+      });
+
+      // Update control triggers
+      document.getElementById('prev-btn').disabled = index === 0;
+      document.getElementById('prev-btn').className = index === 0
+        ? "flex-1 sm:flex-initial bg-slate-100 text-slate-300 border border-slate-100 font-bold px-5 py-3 rounded-xl text-xs flex items-center justify-center space-x-2 cursor-not-allowed"
+        : "flex-1 sm:flex-initial bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2";
+
+      // Toggle Bookmark visual state
+      const isFlagged = flaggedQuestions[index];
+      const bkBtn = document.getElementById('bookmark-btn');
+      const bkText = document.getElementById('bookmark-text');
+      if (isFlagged) {
+        bkBtn.className = "flex-1 sm:flex-initial bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2 border border-amber-500";
+        bkText.innerText = "Flagged / Review";
+        bkBtn.querySelector('i').className = "fa-solid fa-bookmark";
+      } else {
+        bkBtn.className = "flex-1 sm:flex-initial bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold px-4 py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2 border border-amber-200";
+        bkText.innerText = "Flag Question";
+        bkBtn.querySelector('i').className = "fa-regular fa-bookmark";
+      }
+
+      renderNavigator();
+    }
+
+    // SELECT OPTIONS
+    function selectOption(optionIndex) {
+      userAnswers[currentQuestionIndex] = optionIndex;
+      // Auto transition to next with slight comfortable timeout
+      setTimeout(() => {
+        if (currentQuestionIndex < 29) {
+          goToNextQuestion();
+        } else {
+          renderNavigator();
+        }
+      }, 200);
+    }
+
+    // NAVIGATIONS
+    function goToPrevQuestion() {
+      if (currentQuestionIndex > 0) {
+        loadQuestion(currentQuestionIndex - 1);
+      }
+    }
+    function goToNextQuestion() {
+      if (currentQuestionIndex < 29) {
+        loadQuestion(currentQuestionIndex + 1);
+      }
+    }
+    function toggleBookmarkCurrent() {
+      flaggedQuestions[currentQuestionIndex] = !flaggedQuestions[currentQuestionIndex];
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // CONFIRM SUBMISSIONS
+    function confirmSubmitQuiz() {
+      let answered = 0;
+      let flagged = 0;
+      let unanswered = 0;
+
+      for (let i = 0; i < 30; i++) {
+        if (userAnswers[i] !== null) answered++;
+        else unanswered++;
+        if (flaggedQuestions[i]) flagged++;
+      }
+
+      document.getElementById('modal-answered-count').innerText = answered;
+      document.getElementById('modal-flagged-count').innerText = flagged;
+      document.getElementById('modal-unanswered-count').innerText = unanswered;
+
+      document.getElementById('submit-modal').classList.remove('hidden');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submit-modal').classList.add('hidden');
+    }
+
+    // SUBMIT FINAL EVALUATIONS
+    function submitQuizFinal() {
+      clearInterval(timerInterval);
+      document.getElementById('submit-modal').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('results-screen').classList.remove('hidden');
+
+      // Calculations metrics
+      let correct = 0;
+      let incorrect = 0;
+      let unattempted = 0;
+
+      for (let i = 0; i < 30; i++) {
+        if (userAnswers[i] === null) {
+          unattempted++;
+        } else if (userAnswers[i] === MCQS[i].correct) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+
+      const scorePct = Math.round((correct / 30) * 100);
+
+      // Render visuals
+      document.getElementById('result-student-name').innerText = studentData.name;
+      document.getElementById('result-father-name').innerText = studentData.father;
+      
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('result-date').innerText = new Date().toLocaleDateString('en-US', options);
+
+      // Circular Score SVG Transition
+      document.getElementById('score-percentage').innerText = `${scorePct}%`;
+      const circle = document.getElementById('score-circle');
+      const circumference = 2 * Math.PI * 54;
+      const offset = circumference - (scorePct / 100) * circumference;
+      circle.style.strokeDasharray = `${circumference}`;
+      circle.style.strokeDashoffset = `${offset}`;
+
+      // Stats card details
+      document.getElementById('stats-marks').innerText = `${correct} / 30`;
+      document.getElementById('stats-correct').innerText = correct;
+      document.getElementById('stats-incorrect').innerText = incorrect;
+      document.getElementById('stats-unattempted').innerText = unattempted;
+
+      // Evaluation Remarks & Insights
+      let remarksText = "";
+      if (scorePct >= 85) {
+        remarksText = "Outstanding performance! You display top-tier conceptual command over Cell classification and Eukaryotic structures. Highly ready for MDCAT standards under Sir Jawad's benchmark.";
+        triggerVictoryConfetti();
+      } else if (scorePct >= 70) {
+        remarksText = "Competent and promising score. Minor gaps exist in advanced comparative cell traits (like polymerases or ribosomes). Revise and secure those points.";
+      } else {
+        remarksText = "A critical baseline. Kingdom classification and Prokaryote/Eukaryote disparities require thorough revision. Dedicate focus to exact cellular contrasts.";
+      }
+      document.getElementById('teacher-remarks').innerText = remarksText;
+
+      // Strength / Weakness Topics Compilation
+      const strengths = [];
+      const weaknesses = [];
+
+      MCQS.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correct) {
+          if (!strengths.includes(q.topic)) strengths.push(q.topic);
+        } else {
+          if (!weaknesses.includes(q.topic)) weaknesses.push(q.topic);
+        }
+      });
+
+      const strengthList = document.getElementById('strength-areas');
+      strengthList.innerHTML = strengths.length > 0 
+        ? strengths.slice(0, 4).map(s => `<li class="font-medium text-slate-700">${s}</li>`).join('')
+        : `<li class="text-slate-400">No major strengths recorded.</li>`;
+
+      const weakList = document.getElementById('weak-areas');
+      weakList.innerHTML = weaknesses.length > 0 
+        ? weaknesses.slice(0, 4).map(w => `<li class="font-medium text-slate-700">${w}</li>`).join('')
+        : `<li class="text-slate-400">None! Perfect conceptual profile.</li>`;
+
+      // Draw all review lists
+      renderReviewCards();
+    }
+
+    // CONFETTI LAUNCHER
+    function triggerVictoryConfetti() {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // DRAW ASSESSMENT REVIEWS
+    function renderReviewCards() {
+      const container = document.getElementById('review-cards-container');
+      container.innerHTML = '';
+
+      MCQS.forEach((mcq, idx) => {
+        const studentAns = userAnswers[idx];
+        const isCorrect = studentAns === mcq.correct;
+        const isUnattempted = studentAns === null;
+
+        // Apply filters
+        if (activeFilter === 'correct' && !isCorrect) return;
+        if (activeFilter === 'incorrect' && (isCorrect || isUnattempted)) return;
+        if (activeFilter === 'unattempted' && !isUnattempted) return;
+
+        const card = document.createElement('div');
+        card.className = `border rounded-2xl p-5 sm:p-6 transition-all ${
+          isCorrect 
+            ? 'border-emerald-100 bg-emerald-50/20' 
+            : isUnattempted 
+              ? 'border-slate-200 bg-slate-50/40' 
+              : 'border-rose-100 bg-rose-50/20'
+        }`;
+
+        // Header status
+        let statusBadge = "";
+        if (isCorrect) {
+          statusBadge = `<span class="bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i> Correct Option</span>`;
+        } else if (isUnattempted) {
+          statusBadge = `<span class="bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-circle-minus mr-1"></i> Unattempted</span>`;
+        } else {
+          statusBadge = `<span class="bg-rose-100 text-rose-800 border border-rose-200 text-[10px] font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-circle-xmark mr-1"></i> Incorrect Selected</span>`;
+        }
+
+        // Compilation of options markup
+        let optionsMarkup = "";
+        mcq.options.forEach((opt, oIdx) => {
+          const letter = String.fromCharCode(65 + oIdx);
+          let itemStyle = "border rounded-xl p-3 flex items-center space-x-3 text-xs sm:text-sm font-semibold ";
+          
+          if (oIdx === mcq.correct) {
+            itemStyle += "bg-emerald-500 border-emerald-500 text-white shadow-sm";
+          } else if (oIdx === studentAns) {
+            itemStyle += "bg-rose-500 border-rose-500 text-white shadow-sm";
+          } else {
+            itemStyle += "bg-white border-slate-200 text-slate-700";
+          }
+
+          optionsMarkup += `
+            <div class="${itemStyle}">
+              <span class="w-6 h-6 rounded-md bg-black/10 text-white flex items-center justify-center text-xs">${letter}</span>
+              <span>${opt}</span>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <span class="text-xs font-bold text-slate-400">MCQ #${idx + 1} — ${mcq.topic}</span>
+              ${statusBadge}
+            </div>
+            <h4 class="text-sm sm:text-base font-bold text-slate-900">${mcq.question}</h4>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              ${optionsMarkup}
+            </div>
+
+            <!-- Conceptual discussion block -->
+            <div class="bg-white border border-slate-100 p-4 rounded-xl mt-3 space-y-2 text-xs leading-relaxed shadow-sm">
+              <div class="flex items-center space-x-1 text-brand-600 font-bold uppercase tracking-wider">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Discussion & Concept Notes</span>
+              </div>
+              <p class="text-slate-600">${mcq.explanation}</p>
+              <div class="bg-brand-50 text-brand-800 p-2.5 rounded-lg font-bold border-l-4 border-brand-500">
+                <span class="text-[10px] uppercase text-brand-600 block mb-0.5">MDCAT High-Yield Target</span>
+                ${mcq.mdcatPoint}
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // FILTER CARD ACTIONS
+    function filterReviews(filter) {
+      activeFilter = filter;
+      
+      // Update filters visual
+      ['all', 'correct', 'incorrect', 'unattempted'].forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (f === filter) {
+          btn.className = "px-3 py-1.5 rounded-lg text-slate-700 bg-white shadow-xs";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-700 transition-colors";
+        }
+      });
+
+      renderReviewCards();
+    }
+
+    // ==========================================
+    // PREMIUM PDF GENERATION MATRIX (jsPDF)
+    // ==========================================
+
+    // Simple label cleaner for safe rendering
+    function cleanLabel(str) {
+      return str.replace(/&nbsp;/g, ' ');
+    }
+
+    // 1. Personal Performance Report
+    function downloadPerformanceReport() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageHeight = doc.internal.pageSize.height;
+
+      // Draw Academic Elegant Banner Header
+      doc.setFillColor(37, 99, 235); // Royal Blue
+      doc.rect(0, 0, 210, 40, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.text("CAPITAL COACHING ACADEMY (CCA)", 15, 18);
+      
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(11);
+      doc.setTextColor(219, 234, 254);
+      doc.text("MDCAT BIOLOGY SYSTEM — CONCEPT INDUCTION METRICS", 15, 24);
+      doc.text(`Supervisor: Sir Jawad  |  Date: ${new Date().toLocaleDateString()}`, 15, 30);
+
+      // Student and Father Summary Table
+      doc.setFillColor(248, 250, 252);
+      doc.rect(15, 48, 180, 28, 'F');
+      doc.setDrawColor(226, 232, 240); // FIXED setDrawColor
+      doc.rect(15, 48, 180, 28);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.text("CANDIDATE INFORMATION MATRIX", 20, 54);
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text(`Student Name: ${studentData.name}`, 20, 62);
+      doc.text(`Father Name : ${studentData.father}`, 20, 68);
+
+      // Score Metrics Circular Grid Representation
+      let correct = 0;
+      let incorrect = 0;
+      let unattempted = 0;
+      for (let i = 0; i < 30; i++) {
+        if (userAnswers[i] === null) unattempted++;
+        else if (userAnswers[i] === MCQS[i].correct) correct++;
+        else incorrect++;
+      }
+      const scorePct = Math.round((correct / 30) * 100);
+
+      doc.text(`Total MCQs : 30`, 110, 62);
+      doc.text(`Marks Obtained: ${correct} / 30`, 110, 68);
+
+      // Draw horizontal line
+      doc.setDrawColor(226, 232, 240);
+      doc.line(15, 84, 195, 84);
+
+      // Evaluation and Remarks
+      doc.setTextColor(37, 99, 235);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.text("ACADEMY EVALUATION REMARKS", 15, 92);
+
+      doc.setTextColor(71, 85, 105);
+      doc.setFont('Helvetica', 'italic');
+      doc.setFontSize(9.5);
+      const remarkLines = doc.splitTextToSize(document.getElementById('teacher-remarks').innerText, 180);
+      doc.text(remarkLines, 15, 98);
+
+      // Performance Summary Table
+      doc.setFont('Helvetica', 'bold');
+      doc.setTextColor(30, 41, 59);
+      doc.text("TOPIC LEVEL ACCURACY LEDGER", 15, 120);
+
+      const tableData = [];
+      const topicsSet = new Set(MCQS.map(m => m.topic));
+      topicsSet.forEach(topic => {
+        const tQuestions = MCQS.filter(q => q.topic === topic);
+        const tCount = tQuestions.length;
+        const tCorrect = tQuestions.filter(q => userAnswers[q.id - 1] === q.correct).length;
+        const accuracy = Math.round((tCorrect / tCount) * 100);
+        tableData.push([topic, tCount, tCorrect, `${accuracy}%`]);
+      });
+
+      doc.autoTable({
+        startY: 124,
+        head: [['Syllabus Sub-Topic Unit', 'Items', 'Correct Keys', 'Accuracy Rate']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { fillColor: [37, 99, 235], fontSize: 9, fontStyle: 'bold' },
+        bodyStyles: { fontSize: 8.5 },
+        columnStyles: { 0: { cellWidth: 80 } }
+      });
+
+      // Simple footer watermark
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184);
+      doc.text("This report serves as verification from the Capital Coaching Academy digital assessment engine.", 15, pageHeight - 10);
+
+      doc.save(`CCA_Performance_Report_${studentData.name.replace(/\s+/g, '_')}.pdf`);
+    }
+
+    // 2. Practice Booklet Practice PDF with separate answer keys & discussions
+    function downloadPracticeBooklet() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageHeight = doc.internal.pageSize.height;
+
+      // COVER TITLE PAGE FOR PRINTING
+      doc.setDrawColor(37, 99, 235);
+      doc.setLineWidth(1.5);
+      doc.rect(10, 10, 190, pageHeight - 20); // Border
+
+      doc.setDrawColor(226, 232, 240);
+      doc.setLineWidth(0.5);
+      doc.rect(12, 12, 186, pageHeight - 24);
+
+      // CCA Mock Stamp Logo
+      doc.setFillColor(37, 99, 235);
+      doc.rect(75, 40, 60, 20, 'F');
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(20);
+      doc.setTextColor(255, 255, 255);
+      doc.text("C C A", 92, 53);
+
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(18);
+      doc.text("Capital Coaching Academy", 105, 80, { align: "center" });
+
+      doc.setFontSize(12);
+      doc.setFont('Helvetica', 'normal');
+      doc.text("Official MDCAT Standardized Series Booklet", 105, 88, { align: "center" });
+
+      doc.line(40, 100, 170, 100);
+
+      // Topic Meta details
+      doc.setFontSize(14);
+      doc.setFont('Helvetica', 'bold');
+      doc.text("BIOLOGY EXAM PRACTICE HANDOUT", 105, 115, { align: "center" });
+
+      doc.setFontSize(11);
+      doc.setFont('Helvetica', 'normal');
+      doc.setTextColor(71, 85, 105);
+      doc.text("Topic Unit: Prokaryotes vs Eukaryotes & Cell Structures", 105, 124, { align: "center" });
+      doc.text("Supervising Faculty: Sir Jawad", 105, 131, { align: "center" });
+      doc.text(`Total Questions: 30 Conceptual MCQs`, 105, 138, { align: "center" });
+
+      // Practice note
+      doc.setFillColor(241, 245, 249);
+      doc.rect(30, 160, 150, 40, 'F');
+      doc.setTextColor(30, 41, 59);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text("STUDENT SELF-ASSESSMENT DIRECTIVE:", 35, 170);
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      const directiveText = "This resource booklet contains 30 professional MDCAT level multiple choice questions constructed in parallel matching Sir Jawad's Lecture 3 notes. Attempt all items independently without tools. Verify answers in the discussion table appended at the final segment.";
+      const splittedDirectives = doc.splitTextToSize(directiveText, 140);
+      doc.text(splittedDirectives, 35, 176);
+
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Syllabus Verification Date: June 2026`, 105, 260, { align: "center" });
+
+      // BEGIN PRINTABLE MCQS
+      doc.addPage();
+      let currentY = 20;
+
+      MCQS.forEach((mcq, idx) => {
+        // Safe check for page bounds
+        if (currentY > 240) {
+          doc.addPage();
+          currentY = 20;
+        }
+
+        doc.setTextColor(30, 41, 59);
+        doc.setFont('Helvetica', 'bold');
+        doc.setFontSize(10);
+        
+        const qLines = doc.splitTextToSize(`Q${idx + 1}. ${cleanLabel(mcq.question)}`, 180);
+        doc.text(qLines, 15, currentY);
+        currentY += qLines.length * 5 + 2;
+
+        // Render A, B, C, D choices vertically stacked
+        doc.setFont('Helvetica', 'normal');
+        doc.setFontSize(9);
+        mcq.options.forEach((opt, oIdx) => {
+          const optLetter = String.fromCharCode(65 + oIdx);
+          doc.text(`   [ ${optLetter} ]  ${cleanLabel(opt)}`, 15, currentY);
+          currentY += 5;
+        });
+
+        currentY += 4; // space between questions
+      });
+
+      // ANSWER KEYS AND DISCUSSION SECTION
+      doc.addPage();
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(37, 99, 235);
+      doc.text("ANSWER KEY & DISCUSSION INDEX", 15, 20);
+
+      doc.setFontSize(9);
+      doc.setFont('Helvetica', 'normal');
+      doc.setTextColor(71, 85, 105);
+      doc.text("High-Yield discussion sheets verifying textbook rationale across MDCAT queries.", 15, 26);
+
+      // Create beautiful key table
+      const keyTableData = MCQS.map((m, i) => {
+        const optionLetter = String.fromCharCode(65 + m.correct);
+        return [
+          i + 1,
+          cleanLabel(m.question),
+          optionLetter,
+          cleanLabel(m.options[m.correct]),
+          cleanLabel(m.explanation)
+        ];
+      });
+
+      doc.autoTable({
+        startY: 32,
+        head: [['MCQ', 'Question Statement', 'Key', 'Correct Rationale', 'Discussion & Explanation']],
+        body: keyTableData,
+        theme: 'grid',
+        headStyles: { fillColor: [37, 99, 235], fontSize: 8.5, fontStyle: 'bold' },
+        bodyStyles: { fontSize: 7.5 },
+        columnStyles: {
+          0: { cellWidth: 10, fontStyle: 'bold' },
+          1: { cellWidth: 50 },
+          2: { cellWidth: 10, cellPadding: 2, fontStyle: 'bold', halign: 'center' },
+          3: { cellWidth: 40 },
+          4: { cellWidth: 70 }
+        }
+      });
+
+      doc.save("CCA_MDCAT_Biology_Practice_Booklet.pdf");
+    }
+  </script>
+</body>
+</html>
